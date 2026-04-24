@@ -1,0 +1,11 @@
+# SearXNG limiter — disable bot detection for private deployment
+[botdetection.ip_limit]
+link_token = false
+
+[botdetection.ip_lists]
+block_ip = []
+pass_ip = [
+    "192.168.0.0/16",
+    "172.16.0.0/12",
+    "127.0.0.1"
+]

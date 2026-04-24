@@ -1,0 +1,12 @@
+# Domains for certificate generation (one per line)
+# Used by cert.sh --update
+${DOMAIN}
+auth.${DOMAIN}
+gitea.${DOMAIN}
+cloud.${DOMAIN}
+wiki.${DOMAIN}
+minio.${DOMAIN}
+minio-console.${DOMAIN}
+jupyter.${DOMAIN}
+chat.${DOMAIN}
+search.${DOMAIN}

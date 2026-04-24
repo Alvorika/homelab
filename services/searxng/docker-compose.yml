@@ -1,0 +1,24 @@
+# SearXNG — privacy-respecting metasearch engine
+services:
+  searxng:
+    container_name: searxng
+    image: searxng/searxng:2026.1.20-410996df9
+    restart: unless-stopped
+    networks:
+      - global_docker_network
+    ports:
+      - "${BIND_WEB:-127.0.0.1}:8014:8080"
+    volumes:
+      - ./searxng:/etc/searxng:rw
+    environment:
+      - SEARXNG_BASE_URL=https://search.${DOMAIN}
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+      - DAC_OVERRIDE
+
+networks:
+  global_docker_network:
+    external: true
+    name: global_docker_network

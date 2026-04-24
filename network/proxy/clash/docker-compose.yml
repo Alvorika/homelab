@@ -1,0 +1,14 @@
+# Clash proxy — transparent outbound proxy
+# Uses host network to avoid conflicts with bridge networking
+services:
+  clash:
+    image: dreamacro/clash:v1.18.0
+    network_mode: host
+    container_name: clash
+    dns:
+      - ${GATEWAY_IP}
+      - 8.8.8.8
+    volumes:
+      - ./config:/root/.config/clash
+      - /etc/localtime:/etc/localtime:ro
+    restart: "no"

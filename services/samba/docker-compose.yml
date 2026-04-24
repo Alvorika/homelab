@@ -1,0 +1,24 @@
+# Samba — SMB file sharing
+services:
+  samba:
+    image: dperson/samba:amd64
+    container_name: samba
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "${BIND_LAN:-0.0.0.0}:139:139"
+      - "${BIND_LAN:-0.0.0.0}:445:445"
+    volumes:
+      # User home
+      - /home/${SAMBA_USER}:/storage/${SAMBA_USER}/home
+      - ${SAMBA_STORAGE_DIR:-/data/storage/${SAMBA_USER}}:/storage/${SAMBA_USER}/storage
+      # Public share
+      - ${SAMBA_PUBLIC_DIR:-/data/storage/public}:/storage/public
+      # Config
+      - ./data/smb.conf:/etc/samba/smb.conf:ro
+    command:
+      - -u
+      - "${SAMBA_ADMIN_USER};${SAMBA_ADMIN_PASSWORD}"
+      - -u
+      - "${SAMBA_USER};${SAMBA_USER_PASSWORD}"

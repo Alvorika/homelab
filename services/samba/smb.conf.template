@@ -1,0 +1,31 @@
+[global]
+   workgroup = WORKGROUP
+   server string = Samba Server
+   security = user
+   map to guest = Bad User
+   server min protocol = SMB2
+   smb encrypt = desired
+   log file = /dev/stdout
+   max log size = 1000
+   idmap config * : backend = tdb
+   vfs objects = catia fruit recycle streams_xattr
+   create mask = 0770
+   directory mask = 2770
+
+[${SAMBA_USER}]
+   path = /storage/${SAMBA_USER}
+   browsable = yes
+   writable = yes
+   guest ok = no
+   valid users = ${SAMBA_USER}
+
+[public]
+   path = /storage/public
+   browsable = yes
+   writable = yes
+   guest ok = yes
+   public = yes
+   create mask = 0777
+   directory mask = 0777
+   force create mode = 0777
+   force directory mode = 0777

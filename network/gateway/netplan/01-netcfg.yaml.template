@@ -1,0 +1,12 @@
+# /etc/netplan/01-netcfg.yaml
+# Dual-NIC setup: WAN (DHCP) + LAN (static)
+network:
+    ethernets:
+        ${WAN_INTERFACE}:
+            dhcp4: true
+            dhcp6: true
+        ${LAN_INTERFACE}:
+            addresses:
+            - ${GATEWAY_IP}/24
+            dhcp4: false
+    version: 2

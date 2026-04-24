@@ -1,0 +1,10 @@
+# mkcert — local CA for self-signed certificates
+# Not run as a service; used interactively to generate certs
+services:
+  mkcert:
+    image: alpine/mkcert:latest
+    container_name: mkcert_service
+    volumes:
+      - ./mkcert_data/ca:/root/.local/share/mkcert
+      - ./mkcert_data/certs:/certs_output
+    working_dir: /certs_output

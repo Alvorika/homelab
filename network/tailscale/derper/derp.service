@@ -1,0 +1,15 @@
+# /etc/systemd/system/derp.service
+# Alternative systemd deployment (instead of Docker)
+[Unit]
+Description=TS Derper
+After=network.target
+Wants=network.target
+
+[Service]
+User=root
+Restart=always
+ExecStart=/etc/derp/derper -hostname ${DERP_DOMAIN} -a :4825 -http-port 43478 -certmode manual -certdir /etc/derp --verify-clients
+RestartPreventExitStatus=1
+
+[Install]
+WantedBy=multi-user.target

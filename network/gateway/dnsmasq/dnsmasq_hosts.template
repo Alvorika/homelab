@@ -1,0 +1,19 @@
+# /etc/dnsmasq_hosts
+# Local DNS A records
+
+# Gateway itself
+${GATEWAY_IP}    gateway.${DOMAIN}
+
+# Application server
+${SERVER_IP}     server.${DOMAIN}
+
+# Services (all point to server IP via reverse proxy)
+${SERVER_IP}     auth.${DOMAIN}
+${SERVER_IP}     gitea.${DOMAIN}
+${SERVER_IP}     cloud.${DOMAIN}
+${SERVER_IP}     wiki.${DOMAIN}
+${SERVER_IP}     minio-console.${DOMAIN}
+${SERVER_IP}     minio.${DOMAIN}
+${SERVER_IP}     jupyter.${DOMAIN}
+${SERVER_IP}     chat.${DOMAIN}
+${SERVER_IP}     search.${DOMAIN}

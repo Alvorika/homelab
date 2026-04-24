@@ -1,0 +1,7 @@
+# /etc/ufw/before.rules — add BEFORE the *filter section
+#
+# NAT masquerade for LAN -> WAN
+*nat
+:POSTROUTING ACCEPT [0:0]
+-A POSTROUTING -s ${LAN_SUBNET} -o ${WAN_INTERFACE} -j MASQUERADE
+COMMIT

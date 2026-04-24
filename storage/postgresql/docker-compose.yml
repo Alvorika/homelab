@@ -1,0 +1,24 @@
+# PostgreSQL — relational database
+services:
+  db:
+    image: postgres:13-alpine3.20
+    container_name: postgresql
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-outline_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - global_docker_network
+    ports:
+      - "${BIND_DATA:-127.0.0.1}:5432:5432"
+
+volumes:
+  postgres_data:
+
+networks:
+  global_docker_network:
+    external: true
+    name: global_docker_network

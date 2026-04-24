@@ -1,0 +1,160 @@
+# Authelia Configuration
+# Reference: https://www.authelia.com/configuration/prologue/introduction/
+
+theme: auto
+
+server:
+  address: tcp://0.0.0.0:9091
+
+log:
+  level: info
+
+default_2fa_method: webauthn
+
+totp:
+  issuer: ${DOMAIN}
+  skew: 1
+
+webauthn:
+  display_name: "${DOMAIN}"
+  timeout: 60s
+  enable_passkey_login: true
+
+session:
+  name: 'authelia_session'
+  expiration: 1h
+  inactivity: 5m
+  cookies:
+    - domain: "auth.${DOMAIN}"
+      authelia_url: https://auth.${DOMAIN}
+  redis:
+    host: redis
+    port: 6379
+    database_index: 0
+
+authentication_backend:
+  password_reset:
+    disable: true
+  file:
+    path: /config/users_database.yml
+    password:
+      algorithm: argon2id
+      iterations: 1
+      memory: 102400
+      parallelism: 8
+      salt_length: 16
+
+password_policy:
+  standard:
+    enabled: true
+    min_length: 8
+
+access_control:
+  default_policy: two_factor
+  rules:
+    - domain: "auth.${DOMAIN}"
+      policy: one_factor
+
+storage:
+  local:
+    path: /config/authelia-db.sqlite3
+
+notifier:
+  smtp:
+    address: submissions://${AUTHELIA_SMTP_HOST}:465
+    username: ${AUTHELIA_SMTP_USER}
+    password: ${AUTHELIA_SMTP_PASSWORD}
+    sender: "${AUTHELIA_SMTP_SENDER}"
+
+identity_providers:
+  oidc:
+    jwks:
+      - key_id: 'authelia-oidc-key'
+        algorithm: 'RS256'
+        use: 'sig'
+        key: |
+          -----BEGIN PRIVATE KEY-----
+          # Generate: openssl genrsa 2048
+          # Replace with your own key
+          ${OIDC_PRIVATE_KEY}
+          -----END PRIVATE KEY-----
+    clients:
+      - client_id: 'gitea'
+        client_name: 'Gitea'
+        client_secret: '${GITEA_OIDC_CLIENT_SECRET_HASH}'
+        public: false
+        authorization_policy: 'two_factor'
+        redirect_uris:
+          - https://gitea.${DOMAIN}/user/oauth2/Authelia/callback
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'nextcloud'
+        client_name: 'Nextcloud'
+        client_secret: '${NEXTCLOUD_OIDC_CLIENT_SECRET_HASH}'
+        public: false
+        authorization_policy: 'two_factor'
+        redirect_uris:
+          - https://cloud.${DOMAIN}/apps/oidc_login/oidc
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
+
+      - client_id: 'outline'
+        client_name: 'Outline'
+        client_secret: '${OUTLINE_OIDC_CLIENT_SECRET_HASH}'
+        public: false
+        authorization_policy: 'two_factor'
+        redirect_uris:
+          - https://wiki.${DOMAIN}/auth/oidc.callback
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_post'
+
+      - client_id: 'openwebui'
+        client_name: 'OpenWebUI'
+        client_secret: '${OPENWEBUI_OIDC_CLIENT_SECRET_HASH}'
+        public: false
+        authorization_policy: 'two_factor'
+        redirect_uris:
+          - https://chat.${DOMAIN}/oauth/oidc/callback
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
+
+      - client_id: 'jupyterhub'
+        client_name: 'JupyterHub'
+        client_secret: '${JUPYTERHUB_OIDC_CLIENT_SECRET_HASH}'
+        public: false
+        authorization_policy: 'two_factor'
+        redirect_uris:
+          - https://jupyter.${DOMAIN}/hub/oauth_callback
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_post'
+
+regulation:
+  max_retries: 3
+  find_time: 2m
+  ban_time: 5m

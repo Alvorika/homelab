@@ -1,0 +1,25 @@
+# Outline — collaborative knowledge base
+services:
+  outline:
+    image: outlinewiki/outline:0.83.0
+    container_name: outline
+    env_file: ./docker.env
+    ports:
+      - "${BIND_WEB:-127.0.0.1}:3001:3001"
+    dns:
+      - ${GATEWAY_IP}
+      - 8.8.8.8
+    volumes:
+      - storage-data:/var/lib/outline/data
+      - ${CA_CERT_PATH:-/opt/lab/certs/rootCA.pem}:/etc/ssl/certs/custom_ca.pem:ro
+    networks:
+      - global_docker_network
+    restart: unless-stopped
+
+volumes:
+  storage-data:
+
+networks:
+  global_docker_network:
+    external: true
+    name: global_docker_network

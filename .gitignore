@@ -1,0 +1,49 @@
+# Environment variables with secrets
+.env
+.env.*
+*.env
+!*.env.example
+
+# Local rendered configs may contain secrets
+*.local
+*.secret
+*.secrets
+
+# Data directories
+data/
+logs/
+secrets/
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Certificate material
+*.pem
+*.key
+*-key.pem
+*.crt
+*.csr
+*.p12
+*.pfx
+mkcert_data/
+
+# Docker volumes
+volumes/
+
+# Rendered local configs
+examples/nginx/rendered/
+*.rendered
+
+# Local backups from manual template rendering
+*.bak
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

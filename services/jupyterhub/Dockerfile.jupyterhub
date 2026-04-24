@@ -1,0 +1,25 @@
+# Custom JupyterHub image with DockerSpawner support
+ARG JUPYTERHUB_VERSION
+FROM jupyterhub/jupyterhub:5.3.0
+
+ARG PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple
+
+RUN python3 -m pip install --upgrade pip -i ${PIP_INDEX_URL} && \
+    python3 -m pip install --no-cache-dir \
+    -i ${PIP_INDEX_URL} \
+    dockerspawner \
+    jupyterhub \
+    jupyter_server \
+    jupyterhub-nativeauthenticator \
+    oauthenticator
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    sudo \
+    nano \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN echo "jovyan ALL=(ALL) NOPASSWD: /usr/bin/chown -R 1000:100 /home/*/jupyterhub/*" > /etc/sudoers.d/jupyterhub_permissions && \
+    echo "jovyan ALL=(ALL) NOPASSWD: /usr/bin/chmod -R u+rwX,g+rX /home/*/jupyterhub/*" >> /etc/sudoers.d/jupyterhub_permissions && \
+    chmod 0440 /etc/sudoers.d/jupyterhub_permissions
+
+CMD ["jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py"]

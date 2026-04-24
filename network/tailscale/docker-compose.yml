@@ -1,0 +1,14 @@
+# Tailscale in Docker (host network mode)
+# Deploy on app server for secondary subnet routing
+services:
+  tailscale:
+    image: tailscale/tailscale:v1.94.2
+    container_name: tailscale
+    network_mode: "host"
+    volumes:
+      - /dev/net/tun:/dev/net/tun
+      - ./tailscale_state:/var/lib/tailscale
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    command: tailscaled

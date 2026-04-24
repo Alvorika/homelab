@@ -1,0 +1,8 @@
+# YACD — Yet Another Clash Dashboard
+services:
+  yacd:
+    image: ghcr.io/haishanh/yacd:master
+    container_name: yacd
+    restart: unless-stopped
+    ports:
+      - "${BIND_WEB:-127.0.0.1}:1234:80"

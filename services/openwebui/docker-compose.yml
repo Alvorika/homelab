@@ -1,0 +1,42 @@
+# OpenWebUI — LLM chat interface
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:0.6.5
+    container_name: open-webui
+    volumes:
+      - open_webui_data:/app/backend/data
+      - ${CA_CERT_PATH:-/opt/lab/certs/rootCA.pem}:/etc/ssl/certs/custom_ca.pem:ro
+      - ./custom-entrypoint.sh:/custom-entrypoint.sh:ro
+    ports:
+      - "${BIND_WEB:-127.0.0.1}:${OPEN_WEBUI_PORT:-3000}:8080"
+    environment:
+      OLLAMA_BASE_URL: http://ollama:11434
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY}
+      OAUTH_CLIENT_ID: openwebui
+      OAUTH_CLIENT_SECRET: ${OPENWEBUI_OIDC_CLIENT_SECRET}
+      OPENID_PROVIDER_URL: https://auth.${DOMAIN}/.well-known/openid-configuration
+      OAUTH_PROVIDER_NAME: Authelia
+      OAUTH_SCOPES: openid email profile groups
+      ENABLE_OAUTH_SIGNUP: "true"
+      OAUTH_MERGE_ACCOUNTS_BY_EMAIL: "true"
+      OPENID_REDIRECT_URI: https://chat.${DOMAIN}/oauth/oidc/callback
+    dns:
+      - ${GATEWAY_IP}
+      - 8.8.8.8
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    restart: unless-stopped
+    networks:
+      - global_docker_network
+    entrypoint: /custom-entrypoint.sh
+    command: ["bash", "start.sh"]
+
+volumes:
+  open_webui_data:
+    external: true
+    name: openwebui_open-webui_data
+
+networks:
+  global_docker_network:
+    external: true
+    name: global_docker_network

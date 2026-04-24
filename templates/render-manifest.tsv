@@ -1,0 +1,12 @@
+# template	output
+auth/authelia/configuration.yml.template	auth/authelia/configuration.yml
+services/gitea/app.ini.template	services/gitea/app.ini
+network/proxy/clash/config/config.yaml.template	network/proxy/clash/config/config.yaml
+network/gateway/dnsmasq/dnsmasq.conf.template	network/gateway/dnsmasq/dnsmasq.conf
+network/gateway/dnsmasq/dnsmasq_hosts.template	network/gateway/dnsmasq/dnsmasq_hosts
+network/gateway/netplan/01-netcfg.yaml.template	network/gateway/netplan/01-netcfg.yaml
+services/samba/smb.conf.template	services/samba/smb.conf
+services/searxng/settings.yml.template	services/searxng/settings.yml
+services/outline/docker.env.template	services/outline/docker.env
+network/tailscale/derper/nginx-derper.conf.template	network/tailscale/derper/nginx-derper.conf
+network/tailscale/derper/derp.service.template	network/tailscale/derper/derp.service

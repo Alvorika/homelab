@@ -1,0 +1,15 @@
+# GPU Notebook Python dependencies
+jupyter
+jupyterhub
+jupyterlab
+notebook
+ipykernel
+ipywidgets
+numpy
+pandas
+matplotlib
+scikit-learn
+scipy
+transformers
+accelerate
+datasets

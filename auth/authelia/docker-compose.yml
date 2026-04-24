@@ -1,0 +1,38 @@
+# Authelia — SSO and OIDC provider
+services:
+  authelia:
+    container_name: authelia
+    image: authelia/authelia:4.39
+    restart: unless-stopped
+    ports:
+      - "${BIND_WEB:-127.0.0.1}:9091:9091"
+    networks:
+      - global_docker_network
+    environment:
+      AUTHELIA_SESSION_SECRET_FILE: '/secrets/SESSION_SECRET'
+      AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE: '/secrets/JWT_SECRET'
+      AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: '/secrets/STORAGE_ENCRYPTION_KEY'
+      TZ: Asia/Shanghai
+    volumes:
+      - ./data/config:/config
+      - ./data/secrets:/secrets:ro
+      - /etc/localtime:/etc/localtime:ro
+
+  redis:
+    image: redis:alpine
+    container_name: authelia_redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - global_docker_network
+
+volumes:
+  redis_data:
+
+networks:
+  global_docker_network:
+    name: global_docker_network
+    external: true

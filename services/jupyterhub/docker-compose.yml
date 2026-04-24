@@ -1,0 +1,40 @@
+# JupyterHub — multi-user Jupyter notebook server
+services:
+  hub:
+    restart: always
+    image: jupyterhub:v5.3.0
+    container_name: jupyterhub
+    user: root
+    ports:
+      - "${BIND_WEB:-127.0.0.1}:8000:8000"
+    networks:
+      - global_docker_network
+    dns:
+      - ${GATEWAY_IP}
+      - 8.8.8.8
+    volumes:
+      - /home:/home
+      - /opt/jupyterhub_scripts:/opt/jupyterhub_scripts:ro
+      - "./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:rw"
+      - "jupyterhub-data:/data"
+      - "../authelia/data/config/users_database.yml:/opt/authelia/users_database.yml:ro"
+    environment:
+      JUPYTERHUB_ADMIN: ${JUPYTERHUB_ADMIN:-admin}
+      DOCKER_NETWORK_NAME: global_docker_network
+      DOCKER_NOTEBOOK_IMAGE: quay.io/jupyter/base-notebook:x86_64-ubuntu-22.04
+      OAUTH_CLIENT_SECRET: ${JUPYTERHUB_OIDC_CLIENT_SECRET}
+      HTTP_PROXY: ""
+      HTTPS_PROXY: ""
+      NO_PROXY: "localhost,127.0.0.1,authelia,redis"
+      http_proxy: ""
+      https_proxy: ""
+      no_proxy: "localhost,127.0.0.1,authelia,redis"
+
+volumes:
+  jupyterhub-data: {}
+
+networks:
+  global_docker_network:
+    external: true
+    name: global_docker_network

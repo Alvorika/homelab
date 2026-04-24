@@ -1,0 +1,64 @@
+# Clash configuration
+port: 7897
+socks-port: 7898
+mixed-port: 7890
+allow-lan: true
+mode: rule
+log-level: info
+
+external-controller: '127.0.0.1:9097'
+secret: "${CLASH_EXTERNAL_CONTROLLER_SECRET}"
+
+external-controller-cors:
+  allow-private-network: false
+  allow-origins:
+    - 'http://127.0.0.1:1234'
+    - 'http://localhost:1234'
+
+dns:
+  enable: true
+  ipv6: true
+  default-nameserver: [223.5.5.5, 119.29.29.29, 8.8.8.8]
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  use-hosts: true
+  nameserver: ['https://doh.pub/dns-query', 'https://dns.alidns.com/dns-query']
+  fallback: ['https://doh.dns.sb/dns-query', 'https://dns.cloudflare.com/dns-query', 'https://dns.twnic.tw/dns-query', 'tls://8.8.4.4:853']
+  fallback-filter: { geoip: true, ipcidr: [240.0.0.0/4, 0.0.0.0/32] }
+
+unified-delay: true
+ipv6: false
+dns-hijack:
+  - any:53
+
+tun:
+  enable: false
+
+proxy-providers:
+  mysubscription:
+    type: http
+    url: "${CLASH_SUBSCRIPTION_URL}"
+    path: ./proxy_providers/mysubscription.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      interval: 600
+      url: http://www.gstatic.com/generate_204
+
+proxy-groups:
+  - name: "PROXY"
+    type: select
+    use:
+      - mysubscription
+    proxies:
+      - DIRECT
+
+  - name: "Auto"
+    type: url-test
+    use:
+      - mysubscription
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+
+rules:
+  - MATCH,Auto
