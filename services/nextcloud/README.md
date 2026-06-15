@@ -1,6 +1,6 @@
 # Nextcloud
 
-Self-hosted file sync and collaboration platform with Authelia OIDC login.
+Self-hosted file sync and collaboration platform with Authelia OIDC login and an optional OnlyOffice document server.
 
 ## Setup
 
@@ -23,6 +23,7 @@ Self-hosted file sync and collaboration platform with Authelia OIDC login.
 ```
 
 4. Configure in Authelia `configuration.yml` (see `auth/authelia/`)
+5. Configure the Nextcloud OnlyOffice app to use `https://office.${DOMAIN}` with the shared JWT secret from `.env`
 
 ## Environment Variables
 
@@ -33,3 +34,4 @@ Self-hosted file sync and collaboration platform with Authelia OIDC login.
 | `NEXTCLOUD_ADMIN_PASSWORD` | Initial admin password |
 | `NEXTCLOUD_DATA_DIR` | Host path for Nextcloud data |
 | `NEXTCLOUD_DB_DATA_DIR` | Host path for PostgreSQL data |
+| `ONLYOFFICE_JWT_SECRET` | Shared JWT secret for Nextcloud and OnlyOffice |

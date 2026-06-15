@@ -1,7 +1,7 @@
 # OpenWebUI — LLM chat interface
 services:
   open-webui:
-    image: ghcr.io/open-webui/open-webui:0.6.5
+    image: ghcr.io/open-webui/open-webui:latest
     container_name: open-webui
     volumes:
       - open_webui_data:/app/backend/data

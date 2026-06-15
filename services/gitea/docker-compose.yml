@@ -2,7 +2,7 @@
 services:
   server:
     container_name: gitea
-    image: gitea/gitea:1.23
+    image: gitea/gitea:latest
     environment:
       - USER_UID=1000
       - USER_GID=1000

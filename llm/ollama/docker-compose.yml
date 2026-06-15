@@ -1,7 +1,7 @@
 # Ollama — local LLM serving with GPU
 services:
   ollama:
-    image: ollama/ollama:0.6.6
+    image: ollama/ollama:latest
     container_name: ollama
     volumes:
       - ollama_persistent_storage:/root/.ollama

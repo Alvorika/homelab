@@ -11,6 +11,7 @@ The gateway functions as a soft router, providing NAT, DNS, DHCP, and firewall s
 | `netplan/01-netcfg.yaml` | Network interface configuration |
 | `sysctl/99-forwarding.conf` | Enable kernel IP forwarding |
 | `ufw/before.rules` | NAT masquerade rules |
+| `dnsmasq/docker-compose.yml` | Containerized dnsmasq runner |
 | `ufw/README.md` | UFW firewall rules |
 | `dnsmasq/dnsmasq.conf` | DNS + DHCP server config |
 | `dnsmasq/dnsmasq_hosts` | Local DNS A records |
@@ -25,7 +26,12 @@ The gateway functions as a soft router, providing NAT, DNS, DHCP, and firewall s
    ```
 3. **sysctl** — Enable IP forwarding: `sudo sysctl -p /etc/sysctl.d/99-forwarding.conf`
 4. **ufw** — Set up NAT and firewall rules (see `ufw/README.md`)
-5. **dnsmasq** — Install and configure: `sudo apt install dnsmasq -y`
+5. **dnsmasq** — Render `dnsmasq/dnsmasq.conf` and `dnsmasq/dnsmasq_hosts`, then start the container:
+
+   ```bash
+   cd network/gateway/dnsmasq
+   docker compose up -d
+   ```
 
    If `systemd-resolved` conflicts with port 53:
    ```bash

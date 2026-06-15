@@ -2,7 +2,7 @@
 services:
   hub:
     restart: always
-    image: jupyterhub:v5.3.0
+    image: jupyterhub:latest
     container_name: jupyterhub
     user: root
     ports:

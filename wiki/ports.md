@@ -13,6 +13,7 @@ Published host ports are parameterized by bind address variables:
 | Gitea web | 4000 | `BIND_WEB` | Reverse proxy | Public registration disabled |
 | Gitea SSH | 2222 | `BIND_LAN` | LAN/VPN | Restrict with firewall if needed |
 | Nextcloud | 8003 | `BIND_WEB` | Reverse proxy | Large uploads may need proxy tuning |
+| OnlyOffice | 8004 | `BIND_WEB` | Reverse proxy/Nextcloud | JWT should be enabled |
 | Outline | 3001 | `BIND_WEB` | Reverse proxy | Requires PostgreSQL, Redis, MinIO |
 | OpenWebUI | `OPEN_WEBUI_PORT`, default 3000 | `BIND_WEB` | Reverse proxy | OIDC via Authelia |
 | JupyterHub | 8000 | `BIND_WEB` | Reverse proxy | High-privilege DockerSpawner mode |
@@ -26,6 +27,7 @@ Published host ports are parameterized by bind address variables:
 | Clash controller | 9097 | 127.0.0.1 in Clash config | local/tunnel only | Requires secret |
 | YACD | 1234 | `BIND_WEB` | local/tunnel only | Dashboard frontend |
 | DERP | 4825/tcp, 43478/udp | `BIND_PUBLIC` | public DERP host | Deploy only on intended public host |
+| dnsmasq DNS | 53/tcp, 53/udp | host network | LAN DNS | Bind through gateway firewall rules |
+| dnsmasq DHCP | 67/udp | host network | LAN DHCP | Uses `DHCP_RANGE_START` and `DHCP_RANGE_END` |
 
 To expose a web service directly to LAN, set `BIND_WEB=0.0.0.0`, but the recommended default is loopback plus reverse proxy.
-

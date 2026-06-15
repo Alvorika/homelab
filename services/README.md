@@ -11,6 +11,7 @@ All services share a single Docker network: `global_docker_network`. Services re
 | Authelia (auth) | `${BIND_WEB}:9091` | Redis |
 | Gitea | `${BIND_WEB}:4000` | Authelia (OIDC) |
 | Nextcloud | `${BIND_WEB}:8003` | PostgreSQL, Redis, Authelia (OIDC) |
+| OnlyOffice | `${BIND_WEB}:8004` | Nextcloud |
 | Outline | `${BIND_WEB}:3001` | PostgreSQL, Redis, MinIO, Authelia (OIDC) |
 | OpenWebUI | `${BIND_WEB}:${OPEN_WEBUI_PORT:-3000}` | Ollama, Authelia (OIDC) |
 | JupyterHub | `${BIND_WEB}:8000` | Docker socket, Authelia (OIDC) |
@@ -31,6 +32,7 @@ Nginx on the host terminates TLS and reverse-proxies to each service by domain:
 | `auth.${DOMAIN}` | `http://127.0.0.1:9091` |
 | `gitea.${DOMAIN}` | `http://127.0.0.1:4000` |
 | `cloud.${DOMAIN}` | `http://127.0.0.1:8003` |
+| `office.${DOMAIN}` | `http://127.0.0.1:8004` |
 | `wiki.${DOMAIN}` | `http://127.0.0.1:3001` |
 | `chat.${DOMAIN}` | `http://127.0.0.1:3000` |
 | `jupyter.${DOMAIN}` | `http://127.0.0.1:8000` |

@@ -1,7 +1,7 @@
 # Nextcloud — self-hosted file sync & share
 services:
   nextcloud:
-    image: nextcloud:31.0.7
+    image: nextcloud:latest
     container_name: nextcloud
     restart: unless-stopped
     ports:
@@ -24,6 +24,7 @@ services:
       TRUSTED_PROXIES: 172.16.0.0/12 10.0.0.0/8
       OVERWRITEHOST: cloud.${DOMAIN}
       OVERWRITEPROTOCOL: https
+      ONLYOFFICE_URL: https://office.${DOMAIN}
     networks:
       - global_docker_network
     entrypoint:
@@ -46,6 +47,18 @@ services:
     image: redis:alpine
     container_name: nextcloud_redis
     restart: always
+    networks:
+      - global_docker_network
+
+  onlyoffice:
+    image: onlyoffice/documentserver:latest
+    container_name: onlyoffice_docs
+    restart: unless-stopped
+    ports:
+      - "${BIND_WEB:-127.0.0.1}:8004:80"
+    environment:
+      JWT_ENABLED: "true"
+      JWT_SECRET: ${ONLYOFFICE_JWT_SECRET}
     networks:
       - global_docker_network
 

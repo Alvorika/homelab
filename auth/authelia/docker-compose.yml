@@ -2,7 +2,7 @@
 services:
   authelia:
     container_name: authelia
-    image: authelia/authelia:4.39
+    image: authelia/authelia:latest
     restart: unless-stopped
     ports:
       - "${BIND_WEB:-127.0.0.1}:9091:9091"

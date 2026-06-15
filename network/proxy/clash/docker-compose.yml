@@ -2,7 +2,7 @@
 # Uses host network to avoid conflicts with bridge networking
 services:
   clash:
-    image: dreamacro/clash:v1.18.0
+    image: dreamacro/clash:latest
     network_mode: host
     container_name: clash
     dns:

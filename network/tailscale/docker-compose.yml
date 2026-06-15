@@ -2,7 +2,7 @@
 # Deploy on app server for secondary subnet routing
 services:
   tailscale:
-    image: tailscale/tailscale:v1.94.2
+    image: tailscale/tailscale:latest
     container_name: tailscale
     network_mode: "host"
     volumes:

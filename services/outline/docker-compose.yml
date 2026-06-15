@@ -1,7 +1,7 @@
 # Outline — collaborative knowledge base
 services:
   outline:
-    image: outlinewiki/outline:0.83.0
+    image: outlinewiki/outline:latest
     container_name: outline
     env_file: ./docker.env
     ports:

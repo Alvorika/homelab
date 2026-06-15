@@ -11,6 +11,7 @@ ${SERVER_IP}     server.${DOMAIN}
 ${SERVER_IP}     auth.${DOMAIN}
 ${SERVER_IP}     gitea.${DOMAIN}
 ${SERVER_IP}     cloud.${DOMAIN}
+${SERVER_IP}     office.${DOMAIN}
 ${SERVER_IP}     wiki.${DOMAIN}
 ${SERVER_IP}     minio-console.${DOMAIN}
 ${SERVER_IP}     minio.${DOMAIN}

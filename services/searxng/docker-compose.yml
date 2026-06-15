@@ -2,7 +2,7 @@
 services:
   searxng:
     container_name: searxng
-    image: searxng/searxng:2026.1.20-410996df9
+    image: searxng/searxng:latest
     restart: unless-stopped
     networks:
       - global_docker_network
