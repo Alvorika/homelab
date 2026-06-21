@@ -444,15 +444,4 @@ It is best read as an infrastructure reference and deployment notebook rather th
 
 ## License
 
-Add a license before treating this repository as reusable public infrastructure.
-
-Recommended options:
-
-- MIT: permissive, simple reuse
-- Apache-2.0: permissive with explicit patent language
-- GPL-3.0: copyleft, less convenient for broad reuse
-- CC-BY-4.0: suitable for documentation-heavy repositories, but not ideal for code
-
-```text
-TODO: choose and add a LICENSE file.
-```
+This repository is licensed under the MIT License. See [`LICENSE`](LICENSE).
